@@ -12,6 +12,7 @@ from typing import (
     Callable,
     Dict,
     Generic,
+    List,
     Literal,
     Optional,
     Set,
@@ -461,3 +462,19 @@ def auto_crop(cv_img: np.ndarray) -> np.ndarray:
         )
     )
     return cv_img[t:b, l:r]
+
+def v_stack(imgs: List[np.ndarray]) -> np.ndarray:
+    w = max(map(lambda img: img.shape[:2][1], imgs))
+    h = sum(map(lambda img: img.shape[:2][0], imgs))
+    result = np.zeros((h, w, 3), np.uint8)
+    h0 = 0
+    for _img in imgs:
+        w = _img.shape[:2][1]
+        h1 = h0 + _img.shape[:2][0]
+        if len(_img.shape) == 3:
+            result[h0:h1, :w] = _img
+        else:
+            for i in range(3):
+                result[h0:h1, :w, i] = _img
+        h0 = h1
+    return result

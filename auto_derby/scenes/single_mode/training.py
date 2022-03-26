@@ -100,14 +100,21 @@ def _recognize_base_effect(img: Image) -> int:
     imagetools.fill_area(text_img, (0,), size_lt=48)
 
     if os.getenv("DEBUG") == __name__:
-        cv2.imshow("cv_img", cv_img)
-        cv2.imshow("sharpened_img", sharpened_img)
-        cv2.imshow("white_outline_img", white_outline_img)
-        cv2.imshow("brown_outline_img", brown_outline_img)
-        cv2.imshow("bg_mask_img", bg_mask_img)
-        cv2.imshow("masked_img", masked_img)
-        cv2.imshow("text_img_extra", text_img_extra)
-        cv2.imshow("text_img", text_img)
+        cv2.imshow(
+            "debug_img",
+            imagetools.v_stack(
+                [
+                    cv_img,
+                    sharpened_img,
+                    white_outline_img,
+                    brown_outline_img,
+                    bg_mask_img,
+                    masked_img,
+                    text_img_extra,
+                    text_img,
+                ]
+            ),
+        )
         cv2.waitKey()
         cv2.destroyAllWindows()
 
@@ -208,15 +215,22 @@ def _recognize_red_effect(img: Image) -> int:
     imagetools.fill_area(text_img, (0,), size_lt=round(h * 0.2 ** 2))
 
     if os.getenv("DEBUG") == __name__:
-        cv2.imshow("cv_img", cv_img)
-        cv2.imshow("sharpened_img", sharpened_img)
-        cv2.imshow("white_outline_img", white_outline_img)
-        cv2.imshow("red_outline_img", red_outline_img)
-        cv2.imshow("masked_img", masked_img)
-        cv2.imshow("fill", fill_img)
-        cv2.imshow("text_img_base", text_img_base)
-        cv2.imshow("text_img_extra", text_img_extra)
-        cv2.imshow("text_img", text_img)
+        cv2.imshow(
+            "debug_img",
+            imagetools.v_stack(
+                [
+                    cv_img,
+                    sharpened_img,
+                    white_outline_img,
+                    red_outline_img,
+                    masked_img,
+                    fill_img,
+                    text_img_base,
+                    text_img_extra,
+                    text_img,
+                ]
+            ),
+        )
         cv2.waitKey()
         cv2.destroyAllWindows()
 
