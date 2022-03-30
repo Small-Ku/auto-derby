@@ -10,7 +10,7 @@ import logging
 import os
 import webbrowser
 from typing import Any, Dict, Optional, Protocol, Text
-
+import time
 from . import handler
 from .context import Context
 
@@ -26,6 +26,18 @@ class _PromptMiddleware(handler.Middleware):
         if ctx.path != "/":
             return next(ctx)
         if ctx.method == "GET":
+            # XXX: chrome memory cache not respect Cache-Control
+            if "Chrome/" in ctx.request_headers.get(
+                "User-Agent"
+            ) and "memory_cache" not in ctx.params("prevent"):
+                ctx.set_header(
+                    "location",
+                    "/?"
+                    + (ctx.query + "&" if ctx.query else "")
+                    + "prevent=memory_cache",
+                )
+                ctx.send_text(http.HTTPStatus.TEMPORARY_REDIRECT, "redirect")
+                return
             ctx.set_header("Cache-Control", "no-store")
             ctx.send_html(http.HTTPStatus.OK, self.html)
         elif ctx.method == "POST":
@@ -82,6 +94,8 @@ class _DefaultWebview(Webview):
         win32api.keybd_event(VK_W, 0, 0, 0)
         win32api.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
         win32api.keybd_event(VK_W, 0, win32con.KEYEVENTF_KEYUP, 0)
+
+        time.sleep(0.1) # wait chrome response
 
         try:
             import win32gui
