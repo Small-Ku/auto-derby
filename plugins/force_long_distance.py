@@ -1,7 +1,6 @@
 import auto_derby
 import logging
-from auto_derby import single_mode, mathtools
-from typing import Tuple, Text, Dict
+from auto_derby import single_mode
 
 LOGGER = logging.getLogger(__name__)
 

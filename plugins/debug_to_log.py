@@ -1,7 +1,4 @@
 import auto_derby
-from auto_derby import window
-
-
 import logging
 
 _LOGGER = logging.getLogger(__name__)
