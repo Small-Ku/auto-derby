@@ -6,6 +6,8 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import TYPE_CHECKING, Any, Dict, Iterator
 
+from auto_derby.character import Character
+
 if TYPE_CHECKING:
     from . import go_out
 
@@ -237,6 +239,7 @@ class Context:
 
     CONDITION_OVERWEIGHT = 4
     CONDITION_HEADACHE = 5
+    CONDITION_SHARP = 7
     CONDITION_CHARM = 8
 
     STATUS_S = (8, "S")
@@ -272,6 +275,7 @@ class Context:
         return g.context_class()
 
     def __init__(self) -> None:
+        self.character = Character.UNKNOWN
         self.speed = 0
         self.stamina = 0
         self.power = 0
@@ -695,6 +699,7 @@ _CONDITION_TEMPLATES = {
     templates.SINGLE_MODE_CONDITION_HEADACHE: Context.CONDITION_HEADACHE,
     templates.SINGLE_MODE_CONDITION_OVERWEIGHT: Context.CONDITION_OVERWEIGHT,
     templates.SINGLE_MODE_CONDITION_CHARM: Context.CONDITION_CHARM,
+    templates.SINGLE_MODE_CONDITION_SHARP: Context.CONDITION_SHARP,
 }
 
 
